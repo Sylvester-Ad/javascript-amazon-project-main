@@ -146,7 +146,6 @@
   transition: opacity 0.3s ease, transform 0.3s ease;
   position: relative;
   padding: auto 15px;
-  pointer-events: none;
   /* prevent accidental clicks */
 }
 
