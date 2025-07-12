@@ -1,3 +1,4 @@
+import { cart } from '../data/cart.js';
 
 const productsGridEl = document.querySelector(".js-products-grid");
 
