@@ -1,5 +1,13 @@
-import { cart } from '../data/cart.js';
+import { addToCart } from '../data/cart.js';
 import { products } from '../data/products.js';
+
+function updateCartQuantity(cartItem) {
+    // Update the cart quantity in the header
+    const cartQuantityEl = document.querySelector(".js-cart-quantity");
+    let currentQuantity = parseInt(cartQuantityEl.innerHTML, 10) || 0;
+    currentQuantity += cartItem.quantity;
+    cartQuantityEl.innerHTML = currentQuantity;
+}
 
 const productsGridEl = document.querySelector(".js-products-grid");
 
@@ -55,25 +63,15 @@ products.forEach((product) => {
             quantity: parseInt(quantity, 10),
         };
 
-        // Check if the item is already in the cart 
-        const existingItemIndex = cart.findIndex(item => item.id === cartItem.id);
-        if (existingItemIndex > -1) {
-            // If it exists, update the quantity
-            cart[existingItemIndex].quantity += cartItem.quantity;
-        } else {
-            // If it doesn't exist, add it to the cart
-            cart.push(cartItem);
-        }
+        // Add the item to the cart
+        addToCart(cartItem);
+
+        // Update the cart quantity in the header   
+        updateCartQuantity(cartItem);
 
         // Show the "Added" to cart message
-        const addedToCartEl = productEl.querySelector(".js-added-to-cart");        
+        const addedToCartEl = productEl.querySelector(".js-added-to-cart");
         showAddedToCartMessage(addedToCartEl);
-
-        // Update the cart quantity in the header
-        const cartQuantityEl = document.querySelector(".js-cart-quantity");
-        let currentQuantity = parseInt(cartQuantityEl.innerHTML, 10) || 0;
-        currentQuantity += cartItem.quantity;
-        cartQuantityEl.innerHTML = currentQuantity;
     })
 });
 
