@@ -4,7 +4,7 @@ const productsGridEl = document.querySelector(".js-products-grid");
 products.forEach((product) => {
     const productEl = document.createElement("div");
     productEl.classList.add("product-container");
- 
+
     productEl.innerHTML = `
         <div class="product-image-container">
             <img class="product-image" src="${product.image}" />
@@ -42,7 +42,7 @@ products.forEach((product) => {
             Added
         </div>
         <button class="add-to-cart-button js-add-to-cart-button button-primary">Add to Cart</button>
-    `; 
+    `;
     productsGridEl.appendChild(productEl);
 
     // Add event listener for the "Add to Cart" button
@@ -52,7 +52,7 @@ products.forEach((product) => {
             id: product.id,
             quantity: parseInt(quantity, 10),
         };
-        
+
         // Check if the item is already in the cart 
         const existingItemIndex = cart.findIndex(item => item.id === cartItem.id);
         if (existingItemIndex > -1) {
@@ -63,12 +63,9 @@ products.forEach((product) => {
             cart.push(cartItem);
         }
 
-        // Show the "Added to Cart" message
-        const addedToCartEl = productEl.querySelector(".js-added-to-cart");
-        addedToCartEl.style.display = "flex";
-        setTimeout(() => {
-            addedToCartEl.style.display = "none";
-        }, 2000);
+        // Show the "Added" to cart message
+        const addedToCartEl = productEl.querySelector(".js-added-to-cart");        
+        showAddedToCartMessage(addedToCartEl);
 
         // Update the cart quantity in the header
         const cartQuantityEl = document.querySelector(".js-cart-quantity");
@@ -77,4 +74,20 @@ products.forEach((product) => {
         cartQuantityEl.innerHTML = currentQuantity;
     })
 });
+
+let addedToCartTimeout = null;
+function showAddedToCartMessage(addedToCartEl) {
+    // Show message with fade + slide
+    addedToCartEl.classList.add("visible");
+
+    // Clear previous timeout if exists
+    if (addedToCartTimeout) {
+        clearTimeout(addedToCartTimeout);
+    }
+
+    // Hide after 2 seconds
+    addedToCartTimeout = setTimeout(() => {
+        addedToCartEl.classList.remove("visible");
+    }, 2000);
+}
 
