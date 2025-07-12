@@ -4,7 +4,7 @@ const productsGridEl = document.querySelector(".js-products-grid");
 products.forEach((product) => {
     const productEl = document.createElement("div");
     productEl.classList.add("product-container");
-
+ 
     productEl.innerHTML = `
         <div class="product-image-container">
             <img class="product-image" src="${product.image}" />
@@ -41,7 +41,27 @@ products.forEach((product) => {
             <img src="images/icons/checkmark.png" />
             Added
         </div>
-        <button class="add-to-cart-button button-primary">Add to Cart</button>
+        <button class="add-to-cart-button js-add-to-cart-button button-primary">Add to Cart</button>
     `; 
     productsGridEl.appendChild(productEl);
+
+    // Add event listener for the "Add to Cart" button
+    productEl.querySelector(".js-add-to-cart-button").addEventListener("click", () => {
+        const quantity = productEl.querySelector("select").value;
+        const cartItem = {
+            id: product.id,
+            quantity: parseInt(quantity, 10),
+        };
+        
+        // Check if the item is already in the cart 
+        const existingItemIndex = cart.findIndex(item => item.id === cartItem.id);
+        if (existingItemIndex > -1) {
+            cart[existingItemIndex].quantity += cartItem.quantity;
+        } else {
+            cart.push(cartItem);
+        }
+
+        // Show the "Added to Cart" message
+        productEl.querySelector(".added-to-cart").style.display = "block";
+    })
 });
