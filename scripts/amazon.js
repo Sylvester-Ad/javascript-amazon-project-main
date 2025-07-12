@@ -37,7 +37,7 @@ products.forEach((product) => {
 
         <div class="product-spacer"></div>
 
-        <div class="added-to-cart">
+        <div class="added-to-cart js-added-to-cart">
             <img src="images/icons/checkmark.png" />
             Added
         </div>
@@ -56,12 +56,25 @@ products.forEach((product) => {
         // Check if the item is already in the cart 
         const existingItemIndex = cart.findIndex(item => item.id === cartItem.id);
         if (existingItemIndex > -1) {
+            // If it exists, update the quantity
             cart[existingItemIndex].quantity += cartItem.quantity;
         } else {
+            // If it doesn't exist, add it to the cart
             cart.push(cartItem);
         }
 
         // Show the "Added to Cart" message
-        productEl.querySelector(".added-to-cart").style.display = "block";
+        const addedToCartEl = productEl.querySelector(".js-added-to-cart");
+        addedToCartEl.style.display = "flex";
+        setTimeout(() => {
+            addedToCartEl.style.display = "none";
+        }, 2000);
+
+        // Update the cart quantity in the header
+        const cartQuantityEl = document.querySelector(".js-cart-quantity");
+        let currentQuantity = parseInt(cartQuantityEl.innerHTML, 10) || 0;
+        currentQuantity += cartItem.quantity;
+        cartQuantityEl.innerHTML = currentQuantity;
     })
 });
+
